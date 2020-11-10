@@ -19,7 +19,7 @@ jobs:
         dotnet-version: 3.1.301
     - name: Test
       run: |
-        ll
+        dir
         cd ./AvalonApiNoDB.Tests/
-        ll
+        dir
         dotnet test --no-restore --verbosity normal
