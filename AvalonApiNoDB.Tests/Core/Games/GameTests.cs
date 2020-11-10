@@ -9,11 +9,11 @@ namespace AvalonApiNoDB.Tests.Core.Games
     public class GameTests
     {
         [TestMethod]
-        public void IdIsZero()
+        public void IdIsNotZero()
         {
             Game g = new Game();
 
-            Assert.AreNotEqual(g.Id, new Guid());
+            Assert.AreNotEqual(new Guid(), g.Id);
         }
         
         [TestMethod]
@@ -21,7 +21,7 @@ namespace AvalonApiNoDB.Tests.Core.Games
         {
             Game g = new Game();
 
-            Assert.AreEqual(g.Status, GameStatus.WaitingForPlayers);
+            Assert.AreEqual(GameStatus.WaitingForPlayers, g.Status);
         }
 
         [TestMethod]
