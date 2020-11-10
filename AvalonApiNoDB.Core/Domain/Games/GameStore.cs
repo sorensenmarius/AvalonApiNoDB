@@ -40,7 +40,7 @@ namespace AvalonApiNoDB.Core.Domain.Games
 
         public static void DeleteGame(Guid id)
         {
-            //instance.Games.Remove(id);
+            instance.Games.Remove(id);
         }
 
         public static Game GetGameByJoinCode(int joinCode)
