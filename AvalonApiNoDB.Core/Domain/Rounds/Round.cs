@@ -8,20 +8,7 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
 {
     public class Round
     {
-        public Round()
-        {
-            CurrentTeam = new List<Player>();
-            Status = RoundStatus.SelectingTeam;
-            CreationTime = DateTime.Now;
-        }
-        public Round(int roundNumber, int totalPlayerCount)
-        {
-            CurrentTeam = new List<Player>();
-            Status = RoundStatus.SelectingTeam;
-            CreationTime = DateTime.Now;
-            RequiredPlayers = HowManyPlayers(roundNumber, totalPlayerCount).HowMany;
-        }
-
+        public Guid Id { get; set; }
         public int FailedTeams { get; set; }
         public List<Player> CurrentTeam { get; set; }
         public string TeamString { get; set; }
@@ -32,28 +19,31 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
         public int MissionVoteGood { get; set; }
         public int MissionVoteBad { get; set; }
         public int RequiredPlayers { get; set; }
-
-        private HowManyPlayerHelper HowManyPlayers(int RoundNmr, int TotalPlayers)
+        public Round()
         {
-            bool DoubleRound = false;
-            int[,] NmrPlayerBasedOnRound = new int[5, 6] { { 2, 2, 2, 3, 3, 3 }, { 3, 3, 3, 4, 4, 4 }, { 2, 4, 3, 4, 4, 4 }, { 3, 3, 4, 5, 5, 5 }, { 3, 4, 4, 5, 5, 5 } };
-            if (RoundNmr == 4 && TotalPlayers >= 7)
-            {
-                DoubleRound = true;
-            }
-            int HowMany = NmrPlayerBasedOnRound[RoundNmr - 1, TotalPlayers - 5];
-            return new HowManyPlayerHelper(HowMany, DoubleRound);
+            Id = Guid.NewGuid();
+            CurrentTeam = new List<Player>();
+            Status = RoundStatus.SelectingTeam;
+            CreationTime = DateTime.Now;
+        }
+        public Round(int roundNumber, int totalPlayerCount)
+        {
+            Id = Guid.NewGuid();
+            CurrentTeam = new List<Player>();
+            Status = RoundStatus.SelectingTeam;
+            CreationTime = DateTime.Now;
+            RequiredPlayers = HowManyPlayers(roundNumber, totalPlayerCount);
         }
 
-        public class HowManyPlayerHelper
+        private int HowManyPlayers(int roundNumber, int totalPlayers)
         {
-            public int HowMany;
-            public bool DoubleRound;
-            public HowManyPlayerHelper(int howMany, bool doubleRound)
-            {
-                HowMany = howMany;
-                DoubleRound = doubleRound;
-            }
+            int[,] playersPerRoundMatrix = new int[5, 6] { { 2, 2, 2, 3, 3, 3 }, 
+                                                           { 3, 3, 3, 4, 4, 4 }, 
+                                                           { 2, 4, 3, 4, 4, 4 }, 
+                                                           { 3, 3, 4, 5, 5, 5 }, 
+                                                           { 3, 4, 4, 5, 5, 5 } };
+            int numberOfPlayers = playersPerRoundMatrix[roundNumber - 1, totalPlayers - 5];
+            return numberOfPlayers;
         }
 
         public int TotalTeamVotes
