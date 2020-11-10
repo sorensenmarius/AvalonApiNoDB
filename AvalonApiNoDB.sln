@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonApiNoDB", "AvalonApiNoDB\AvalonApiNoDB.csproj", "{7FF5CE9E-CF82-419C-8A94-0719B6AE464C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvalonApiNoDB.Api", "AvalonApiNoDB\AvalonApiNoDB.Api.csproj", "{7FF5CE9E-CF82-419C-8A94-0719B6AE464C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonApiNoDB.Core", "AvalonApiNoDB.Core\AvalonApiNoDB.Core.csproj", "{28CC52BE-1F3C-48E2-9A03-72A84E488803}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2CAA3812-EBDF-4600-A5AD-728AD012934F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonApiNoDB.Tests", "AvalonApiNoDB.Tests\AvalonApiNoDB.Tests.csproj", "{7B1DBA82-6C98-4E16-A003-848E170729F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{7FF5CE9E-CF82-419C-8A94-0719B6AE464C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FF5CE9E-CF82-419C-8A94-0719B6AE464C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FF5CE9E-CF82-419C-8A94-0719B6AE464C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28CC52BE-1F3C-48E2-9A03-72A84E488803}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28CC52BE-1F3C-48E2-9A03-72A84E488803}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28CC52BE-1F3C-48E2-9A03-72A84E488803}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28CC52BE-1F3C-48E2-9A03-72A84E488803}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CAA3812-EBDF-4600-A5AD-728AD012934F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CAA3812-EBDF-4600-A5AD-728AD012934F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CAA3812-EBDF-4600-A5AD-728AD012934F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CAA3812-EBDF-4600-A5AD-728AD012934F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B1DBA82-6C98-4E16-A003-848E170729F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B1DBA82-6C98-4E16-A003-848E170729F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B1DBA82-6C98-4E16-A003-848E170729F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B1DBA82-6C98-4E16-A003-848E170729F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
