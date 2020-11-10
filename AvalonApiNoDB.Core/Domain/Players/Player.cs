@@ -14,5 +14,10 @@ namespace AvalonApiNoDB.Core.Domain.Players
         public string RoleName { get; set; }
         public bool IsEvil { get; set; }
         public int Order { get; set; }
+
+        public Player()
+        {
+            Id = Guid.NewGuid();
+        }
     }
 }
