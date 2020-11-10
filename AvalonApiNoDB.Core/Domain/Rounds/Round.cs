@@ -16,8 +16,8 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
         public RoundStatus Status { get; set; }
         public int VotesForTeam { get; set; }
         public int VotesAgainstTeam { get; set; }
-        public int MissionVoteGood { get; set; }
-        public int MissionVoteBad { get; set; }
+        public int VotesForExpedition { get; set; }
+        public int VotesAgainstExpedition { get; set; }
         public int RequiredPlayers { get; set; }
         public Round()
         {
@@ -54,11 +54,11 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
             }
         }
 
-        public int TotalMissionVotes
+        public int TotalExpeditionVotes
         {
             get
             {
-                return MissionVoteGood + MissionVoteBad;
+                return VotesForExpedition + VotesAgainstExpedition;
             }
         }
 
@@ -73,9 +73,9 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
         public void ExpeditionVote(bool goodVote)
         {
             if (goodVote)
-                MissionVoteGood++;
+                VotesForExpedition++;
             else
-                MissionVoteBad++;
+                VotesAgainstExpedition++;
         }
     }
 }
