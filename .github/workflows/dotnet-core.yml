@@ -17,15 +17,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
-    - name: Install dependencies
-      run: |
-        cd AvalonApiNoDB.Api
-        dotnet restore
-    - name: Build
-      run: | 
-        cd AvalonApiNoDB.Api
-        dotnet build --configuration Release --no-restore
     - name: Test
       run: |
-        cd AvalonApiNoDB.Tests
+        cd ./AvalonApiNoDB.Tests/
         dotnet test --no-restore --verbosity normal
