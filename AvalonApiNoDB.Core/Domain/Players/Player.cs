@@ -19,5 +19,11 @@ namespace AvalonApiNoDB.Core.Domain.Players
         {
             Id = Guid.NewGuid();
         }
+
+        public Player(string playerName)
+        {
+            Id = Guid.NewGuid();
+            Name = playerName;
+        }
     }
 }
