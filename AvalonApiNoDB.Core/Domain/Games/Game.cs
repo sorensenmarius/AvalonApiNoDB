@@ -25,6 +25,7 @@ namespace AvalonApiNoDB.Core.Domain.Games
             CreationTime = DateTime.Now;
             Status = GameStatus.WaitingForPlayers;
             Id = Guid.NewGuid();
+            Rounds = new List<Round>();
         }
 
         public Player GetPlayer(Guid playerId)
