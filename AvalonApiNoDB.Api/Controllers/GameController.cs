@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using AvalonApiNoDB.Api.Controllers.Dto;
 using AvalonApiNoDB.Core.Domain.Games;
 using AvalonApiNoDB.Core.Domain.Players;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AvalonApiNoDB.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class GameController : ControllerBase
     {
         // GET api/<GameController>/5
@@ -17,14 +18,31 @@ namespace AvalonApiNoDB.Api.Controllers
             return GameStore.GetGame(id);
         }
 
-        [HttpPost]
-        public Game JoinGame(int joinCode, string playerName)
+        [HttpPost("Join")]
+        public ActionResult<Game> Join(JoinGameDto input)
         {
-            Game g = GameStore.GetGameByJoinCode(joinCode);
+            Game g;
+            try
+            {
+                g = GameStore.GetGameByJoinCode(input.JoinCode);
+            } catch(KeyNotFoundException)
+            {
+                return NotFound();
+            }
 
-            Player p = new Player(playerName);
+            Player p = new Player(input.PlayerName);
 
             g.Players.Add(p);
+
+            return g;
+        }
+
+        [HttpPut]
+        public Game Create()
+        {
+            Game g = new Game();
+
+            GameStore.AddGame(g);
 
             return g;
         }
