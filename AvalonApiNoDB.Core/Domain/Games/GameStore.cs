@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AvalonApiNoDB.Core.Domain.Players;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,11 +31,14 @@ namespace AvalonApiNoDB.Core.Domain.Games
             instance.Games[g.Id] = g;
         }
 
-        public static Game GetGame(Guid id)
+        public static Game GetGame(Guid gameId)
         {
-            if(instance.Games.TryGetValue(id, out Game g))
-                return g;
-            return null;
+            Game g = instance.Games.GetValueOrDefault(gameId);
+
+            if (g == default(Game))
+                throw new KeyNotFoundException($"No game with ID {gameId} was found in GameStore");
+
+            return g;
         }
 
         public static void DeleteGame(Guid id)
@@ -53,6 +57,18 @@ namespace AvalonApiNoDB.Core.Domain.Games
         public static void Reset()
         {
             instance.Games = new Dictionary<Guid, Game>();
+        }
+
+        public static Player GetPlayer(Guid gameId, Guid playerId)
+        {
+            Game g = GetGame(gameId);
+
+            Player p = g.Players.Where(p => p.Id == playerId).FirstOrDefault();
+
+            if (p == default(Player))
+                throw new KeyNotFoundException($"No player with ID {playerId} was found");
+
+            return p;
         }
     }
 }
