@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using AvalonApiNoDB.Api.Hubs.Clients;
-using AvalonApiNoDB.Api.Hubs.Enums;
 using AvalonApiNoDB.Core.Domain.Games;
 using AvalonApiNoDB.Core.Domain.Players;
 using Microsoft.AspNetCore.SignalR;
