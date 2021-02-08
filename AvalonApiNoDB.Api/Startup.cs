@@ -32,6 +32,14 @@ namespace AvalonApiNoDB
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(c =>
+            {
+                c.WithOrigins(Configuration["CorsOrigins"].Split(","))
+                    .AllowAnyHeader()
+                    .WithMethods("GET", "POST", "PUT", "DELETE")
+                    .AllowCredentials();
+            });
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -44,7 +52,6 @@ namespace AvalonApiNoDB
             app.UseRouting();
 
             app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {

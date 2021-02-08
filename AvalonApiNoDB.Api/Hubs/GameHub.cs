@@ -23,9 +23,13 @@ namespace AvalonApiNoDB.Api.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId.ToString());
 
-            Player p = GameStore.GetPlayer(gameId, playerId);
+            //Player p = GameStore.GetPlayer(gameId, playerId);
 
-            await Clients.Group(gameId.ToString()).PlayerJoined(p);
+            //await Clients.Group(gameId.ToString()).PlayerJoined(p);
+
+            Game g = GameStore.GetGame(gameId);
+
+            await Clients.Group(gameId.ToString()).GameUpdated(g);
         }
     }
 }

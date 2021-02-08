@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AvalonApiNoDB.Api.Controllers.Dto
 {
-    public class JoinGameDto
+    public class JoinGameInputDto
     {
         public int JoinCode { get; set; }
         public string PlayerName { get; set; }

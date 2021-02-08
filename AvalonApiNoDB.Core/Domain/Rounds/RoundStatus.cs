@@ -6,9 +6,8 @@
         VotingForTeam = 1,
         VotingExpedition = 2,
         TeamApproved = 3,
-        TeamDenied = 4, //kanskje fjerne denne 
-        MissionSuccess = 5,
-        MissionFailed = 6,
+        MissionSuccess = 4,
+        MissionFailed = 5,
         RoundEnded = -1
     }
 }

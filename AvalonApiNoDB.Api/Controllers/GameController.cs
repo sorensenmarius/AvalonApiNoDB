@@ -19,22 +19,26 @@ namespace AvalonApiNoDB.Api.Controllers
         }
 
         [HttpPost("Join")]
-        public ActionResult<Game> Join(JoinGameDto input)
+        public ActionResult<JoinGameResponseDto> Join(JoinGameInputDto input)
         {
             Game g;
             try
             {
                 g = GameStore.GetGameByJoinCode(input.JoinCode);
-            } catch(KeyNotFoundException)
+            } catch(KeyNotFoundException e)
             {
-                return NotFound();
+                return NotFound(e.Message);
             }
 
             Player p = new Player(input.PlayerName);
 
             g.Players.Add(p);
 
-            return g;
+            return new JoinGameResponseDto()
+            {
+                Game = g,
+                Me = p
+            };
         }
 
         [HttpPut]
