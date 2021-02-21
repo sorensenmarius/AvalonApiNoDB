@@ -31,5 +31,14 @@ namespace AvalonApiNoDB.Api.Hubs
 
             await Clients.Group(gameId.ToString()).GameUpdated(g);
         }
+
+        public async Task Assassinate(Guid gameId, Guid assassinationTargetId)
+        {
+            Game g = GameStore.GetGame(gameId);
+
+            g.Assassinate(assassinationTargetId);
+
+            await Clients.Group(gameId.ToString()).GameUpdated(g);
+        }
     }
 }

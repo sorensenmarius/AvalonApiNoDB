@@ -42,5 +42,17 @@ namespace AvalonApiNoDB.Core.Domain.Games
                 return Rounds[Rounds.Count - 1];
             }
         }
+
+        public void Assassinate(Guid playerId)
+        {
+            Player p = Players.Find(p => p.Id == playerId);
+
+            if (p.RoleId == Role.Merlin)
+            {
+                PointsInnocent = -1;
+            }
+
+            Status = GameStatus.Ended;
+        }
     }
 }
