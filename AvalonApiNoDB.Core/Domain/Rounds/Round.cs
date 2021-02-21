@@ -32,7 +32,8 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
             CurrentTeam = new List<Player>();
             Status = RoundStatus.SelectingTeam;
             CreationTime = DateTime.Now;
-            RequiredPlayers = HowManyPlayers(roundNumber, totalPlayerCount);
+            //RequiredPlayers = HowManyPlayers(roundNumber, totalPlayerCount);
+            RequiredPlayers = 2; // TODO - Remove this testing stuff
         }
 
         private int HowManyPlayers(int roundNumber, int totalPlayers)

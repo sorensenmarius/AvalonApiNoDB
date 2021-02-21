@@ -2,6 +2,7 @@
 using AvalonApiNoDB.Core.Domain.Rounds;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AvalonApiNoDB.Core.Domain.Games
 {
@@ -9,14 +10,45 @@ namespace AvalonApiNoDB.Core.Domain.Games
     {
         public Guid Id { get; set; }
         public int JoinCode { get; set; }
-        public int Counter { get; set; }
         public int PointsInnocent { get; set; }
         public int PointsEvil { get; set; }
-        public Player CurrentPlayer { get; set; }
         public List<Player> Players { get; set; }
         public DateTime CreationTime { get; set; }
         public GameStatus Status { get; set; }
         public List<Round> Rounds { get; set; }
+        private int _playerIndex { get; set; }
+        public int PlayerIndex // Might not need this as I have added order to the Player class. Why not just sort the Players array though :thinking:
+        {
+            get
+            {
+                return _playerIndex;
+            }
+            set
+            {
+                _playerIndex = value % Players.Count();
+            }
+        }
+        
+        public Round CurrentRound
+        {
+            get
+            {
+                if (Rounds.Count == 0)
+                    return null;
+                return Rounds[^1];
+            }
+        }
+
+        public Player CurrentPlayer
+        {
+            get
+            {
+                if (Players.Count == 0)
+                    return null;
+                return Players[PlayerIndex];
+            }
+        }
+
         public Game()
         {
             Random generator = new Random();
@@ -33,14 +65,11 @@ namespace AvalonApiNoDB.Core.Domain.Games
             return Players.Find(p => p.Id == playerId);
         }
 
-        public Round CurrentRound
+        public void Start()
         {
-            get
-            {
-                if (Rounds.Count == 0)
-                    return null;
-                return Rounds[Rounds.Count - 1];
-            }
+            Status = GameStatus.Playing;
+            Rounds.Add(new Round(0, Players.Count()));
+            PlayerIndex = new Random().Next(0, Players.Count());
         }
 
         public void Assassinate(Guid playerId)
@@ -53,6 +82,13 @@ namespace AvalonApiNoDB.Core.Domain.Games
             }
 
             Status = GameStatus.Ended;
+        }
+
+        public void SetCurrentTeam(IEnumerable<Guid> playerIds)
+        {
+            IEnumerable<Player> players = playerIds.Select(pId => Players.Find(p => p.Id == pId));
+
+            CurrentRound.CurrentTeam = players.ToList();
         }
     }
 }

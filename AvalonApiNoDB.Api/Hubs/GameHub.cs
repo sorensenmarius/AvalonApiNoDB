@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AvalonApiNoDB.Api.Hubs.Clients;
 using AvalonApiNoDB.Core.Domain.Games;
-using AvalonApiNoDB.Core.Domain.Players;
 using Microsoft.AspNetCore.SignalR;
 
 namespace AvalonApiNoDB.Api.Hubs
@@ -19,13 +19,18 @@ namespace AvalonApiNoDB.Api.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId.ToString());
         }
 
-        public async Task JoinGame(Guid gameId, Guid playerId)
+        public async Task StartGame(Guid gameId)
+        {
+            Game g = GameStore.GetGame(gameId);
+
+            g.Start();
+
+            await Clients.Group(gameId.ToString()).GameUpdated(g);
+        }
+
+        public async Task JoinGame(Guid gameId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId.ToString());
-
-            //Player p = GameStore.GetPlayer(gameId, playerId);
-
-            //await Clients.Group(gameId.ToString()).PlayerJoined(p);
 
             Game g = GameStore.GetGame(gameId);
 
@@ -37,6 +42,15 @@ namespace AvalonApiNoDB.Api.Hubs
             Game g = GameStore.GetGame(gameId);
 
             g.Assassinate(assassinationTargetId);
+
+            await Clients.Group(gameId.ToString()).GameUpdated(g);
+        }
+
+        public async Task ChangeSelectedTeam(Guid gameId, IEnumerable<Guid> playerIds)
+        {
+            Game g = GameStore.GetGame(gameId);
+
+            g.SetCurrentTeam(playerIds);
 
             await Clients.Group(gameId.ToString()).GameUpdated(g);
         }
