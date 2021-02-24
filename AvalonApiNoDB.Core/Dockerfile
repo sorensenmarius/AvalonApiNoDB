@@ -10,7 +10,7 @@ WORKDIR /src
 COPY ["AvalonApiNoDB.Core/AvalonApiNoDB.Core.csproj", "AvalonApiNoDB.Core/"]
 RUN dotnet restore "AvalonApiNoDB/AvalonApiNoDB.Core.csproj"
 COPY . .
-WORKDIR "/src/AvalonApiNoDB.Core"
+WORKDIR "/src/AvalonApiNoDB"
 RUN dotnet build "AvalonApiNoDB.Core.csproj" -c Release -o /app/build
 
 FROM build AS publish
