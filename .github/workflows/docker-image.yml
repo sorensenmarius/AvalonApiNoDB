@@ -13,4 +13,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file AvalonApiNoDB/Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file AvalonApiNoDB.Api/Dockerfile --tag my-image-name:$(date +%s)
