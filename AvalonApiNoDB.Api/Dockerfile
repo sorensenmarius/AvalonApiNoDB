@@ -7,10 +7,12 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["AvalonApiNoDB.Api/AvalonApiNoDB.Api.csproj", "AvalonApiNoDB/"]
-RUN dotnet restore "AvalonApiNoDB/AvalonApiNoDB.Api.csproj"
+COPY ["AvalonApiNoDB.Api/AvalonApiNoDB.Api.csproj", "AvalonApiNoDB.Api/"]
+RUN dotnet restore "AvalonApiNoDB.Api/AvalonApiNoDB.Api.csproj"
+
 COPY . .
-WORKDIR "/src/AvalonApiNoDB"
+WORKDIR "/src/AvalonApiNoDB.Api"
+
 RUN dotnet build "AvalonApiNoDB.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
