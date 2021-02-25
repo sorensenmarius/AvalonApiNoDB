@@ -4,6 +4,7 @@ using AvalonApiNoDB.Api.Controllers.Dto;
 using AvalonApiNoDB.Core.Domain.Games;
 using AvalonApiNoDB.Core.Domain.Players;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace AvalonApiNoDB.Api.Controllers
 {
@@ -11,6 +12,13 @@ namespace AvalonApiNoDB.Api.Controllers
     [Route("[controller]")]
     public class GameController : ControllerBase
     {
+        public GameController(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // GET api/<GameController>/5
         [HttpGet("{id}")]
         public Game Get(Guid id)
@@ -49,6 +57,12 @@ namespace AvalonApiNoDB.Api.Controllers
             GameStore.AddGame(g);
 
             return g;
+        }
+
+        [HttpGet]
+        public string GetThisShitGodDamn()
+        {
+            return Configuration["CorsOrigins"];
         }
     }
 }
