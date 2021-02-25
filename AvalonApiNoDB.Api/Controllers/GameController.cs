@@ -58,5 +58,11 @@ namespace AvalonApiNoDB.Api.Controllers
 
             return g;
         }
+
+        [HttpGet("TESTING")]
+        public string Testing()
+        {
+            return "FUCK YEA";
+        }
     }
 }
