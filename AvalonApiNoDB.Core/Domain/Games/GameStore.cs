@@ -28,6 +28,7 @@ namespace AvalonApiNoDB.Core.Domain.Games
 
         public static void AddGame(Game g)
         {
+            CleanUpOldGames();
             instance.Games[g.Id] = g;
         }
 
@@ -69,6 +70,11 @@ namespace AvalonApiNoDB.Core.Domain.Games
                 throw new KeyNotFoundException($"No player with ID {playerId} was found");
 
             return p;
+        }
+
+        private static void CleanUpOldGames()
+        {
+            instance.Games = (Dictionary<Guid, Game>)instance.Games.Where(kvp => kvp.Value.CreationTime.AddHours(3) > DateTime.Now);
         }
     }
 }
