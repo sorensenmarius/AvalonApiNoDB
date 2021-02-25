@@ -58,11 +58,5 @@ namespace AvalonApiNoDB.Api.Controllers
 
             return g;
         }
-
-        [HttpGet]
-        public string GetThisShitGodDamn()
-        {
-            return Configuration["CorsOrigins"];
-        }
     }
 }
