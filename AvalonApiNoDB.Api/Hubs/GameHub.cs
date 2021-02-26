@@ -54,5 +54,23 @@ namespace AvalonApiNoDB.Api.Hubs
 
             await Clients.Group(gameId.ToString()).GameUpdated(g);
         }
+
+        public async Task SubmitSelectedTeam(Guid gameId)
+        {
+            Game g = GameStore.GetGame(gameId);
+
+            g.SubmitCurrentTeam();
+
+            await Clients.Group(gameId.ToString()).GameUpdated(g);
+        }
+
+        public async Task SubmitTeamVote(Guid gameId, bool votedSuccess)
+        {
+            Game g = GameStore.GetGame(gameId);
+
+            g.AddTeamVote(votedSuccess);
+
+            await Clients.Group(gameId.ToString()).GameUpdated(g);
+        }
     }
 }

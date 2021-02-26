@@ -74,7 +74,8 @@ namespace AvalonApiNoDB.Core.Domain.Games
 
         private static void CleanUpOldGames()
         {
-            instance.Games = (Dictionary<Guid, Game>)instance.Games.Where(kvp => kvp.Value.CreationTime.AddHours(3) > DateTime.Now);
+            instance.Games = instance.Games.Where(kvp => kvp.Value.CreationTime.AddHours(3) > DateTime.Now)
+                                           .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         }
     }
 }

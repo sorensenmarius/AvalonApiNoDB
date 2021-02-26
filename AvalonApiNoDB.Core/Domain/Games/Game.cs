@@ -72,6 +72,25 @@ namespace AvalonApiNoDB.Core.Domain.Games
             PlayerIndex = new Random().Next(0, Players.Count());
         }
 
+        public void NextRound()
+        {
+            if (PointsEvil >= 3 || PointsInnocent >= 3)
+            {
+                if (PointsEvil < 3 && Players.Exists(p => p.RoleId == Role.Assassin))
+                {
+                    Status = GameStatus.AssassinTurn;
+                }
+                else
+                {
+                    Status = GameStatus.Ended;
+                }
+            }
+            else
+            {
+                Rounds.Add(new Round(Rounds.Count, Players.Count));
+            }
+        }
+
         public void Assassinate(Guid playerId)
         {
             Player p = Players.Find(p => p.Id == playerId);
@@ -89,6 +108,39 @@ namespace AvalonApiNoDB.Core.Domain.Games
             IEnumerable<Player> players = playerIds.Select(pId => Players.Find(p => p.Id == pId));
 
             CurrentRound.CurrentTeam = players.ToList();
+        }
+
+        public void SubmitCurrentTeam()
+        {
+            CurrentRound.Status = RoundStatus.VotingForTeam;
+        }
+
+        public void AddTeamVote(bool votedSuccess)
+        {
+            if (votedSuccess)
+            {
+                CurrentRound.VotesForTeam++;
+            } else
+            {
+                CurrentRound.VotesAgainstTeam++;
+            }
+
+            if (CurrentRound.VotesForTeam + CurrentRound.VotesForExpedition >= Players.Count)
+            {
+                CurrentRound.Status = RoundStatus.TeamApproved;
+            }
+        }
+
+        public void AddExpeditionVote(bool votedSuccess)
+        {
+            if (votedSuccess)
+            {
+                CurrentRound.VotesForExpedition++;
+            }
+            else
+            {
+                CurrentRound.VotesAgainstExpedition++;
+            }
         }
     }
 }
