@@ -32,8 +32,8 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
             CurrentTeam = new List<Player>();
             Status = RoundStatus.SelectingTeam;
             CreationTime = DateTime.Now;
-            //RequiredPlayers = HowManyPlayers(roundNumber, totalPlayerCount);
-            RequiredPlayers = 2; // TODO - Remove this testing stuff
+            RequiredPlayers = HowManyPlayers(roundNumber, totalPlayerCount);
+            //RequiredPlayers = 2; // TODO - Remove this testing stuff
         }
 
         private int HowManyPlayers(int roundNumber, int totalPlayers)
@@ -43,7 +43,7 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
                                                            { 2, 4, 3, 4, 4, 4 }, 
                                                            { 3, 3, 4, 5, 5, 5 }, 
                                                            { 3, 4, 4, 5, 5, 5 } };
-            int numberOfPlayers = playersPerRoundMatrix[roundNumber - 1, totalPlayers - 5];
+            int numberOfPlayers = playersPerRoundMatrix[roundNumber, totalPlayers - 5];
             return numberOfPlayers;
         }
 

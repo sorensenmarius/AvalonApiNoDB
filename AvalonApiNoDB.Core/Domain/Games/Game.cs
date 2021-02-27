@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace AvalonApiNoDB.Core.Domain.Games
 {
-    public class Game
+    public partial class Game
     {
         public Guid Id { get; set; }
         public int JoinCode { get; set; }
@@ -17,7 +17,7 @@ namespace AvalonApiNoDB.Core.Domain.Games
         public GameStatus Status { get; set; }
         public List<Round> Rounds { get; set; }
         private int _playerIndex { get; set; }
-        public int PlayerIndex // Might not need this as I have added order to the Player class. Why not just sort the Players array though :thinking:
+        public int PlayerIndex
         {
             get
             {
@@ -28,26 +28,10 @@ namespace AvalonApiNoDB.Core.Domain.Games
                 _playerIndex = value % Players.Count();
             }
         }
-        
-        public Round CurrentRound
-        {
-            get
-            {
-                if (Rounds.Count == 0)
-                    return null;
-                return Rounds[^1];
-            }
-        }
 
-        public Player CurrentPlayer
-        {
-            get
-            {
-                if (Players.Count == 0)
-                    return null;
-                return Players[PlayerIndex];
-            }
-        }
+        public Round CurrentRound => Rounds.Count == 0 ? null : Rounds[^1];
+
+        public Player CurrentPlayer => Players.Count == 0 ? null : Players[PlayerIndex];
 
         public Game()
         {
@@ -65,11 +49,40 @@ namespace AvalonApiNoDB.Core.Domain.Games
             return Players.Find(p => p.Id == playerId);
         }
 
-        public void Start()
+        public void Start(List<int> roles)
         {
             Status = GameStatus.Playing;
             Rounds.Add(new Round(0, Players.Count()));
             PlayerIndex = new Random().Next(0, Players.Count());
+            DistributeRoles(roles);
+        }
+
+        public void DistributeRoles(List<int> roles)
+        {
+            var numberOfGood = roles.FindAll(r => r <= 3).Count;
+            var numberOfEvil = roles.Count - numberOfGood;
+
+            var roleList = roles.Select(r => (Role)r).ToList();
+
+            var numberOfMinions = GetNumberOfEvils(Players.Count) - numberOfEvil;
+            roleList.AddRange(Enumerable.Repeat(Role.Minion, numberOfMinions).ToList());
+            
+            var numberOfServants = Players.Count - roleList.Count;
+            roleList.AddRange(Enumerable.Repeat(Role.Servant, numberOfServants).ToList());
+
+            roleList = roleList.OrderBy(x => Guid.NewGuid()).ToList();
+
+            Players = Players.Select((p, i) =>
+            {
+                p.RoleId = roleList[i];
+                return p;
+            }).ToList();
+
+            Players = Players.Select((p) =>
+            {
+                p.RoleInfo = GetRoleString(p.RoleId);
+                return p;
+            }).ToList();
         }
 
         public void NextRound()

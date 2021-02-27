@@ -11,9 +11,8 @@ namespace AvalonApiNoDB.Core.Domain.Players
         public string Name { get; set; }
         public Role RoleId { get; set; }
         public string RoleInfo { get; set; }
-        public string RoleName { get; set; }
-        public bool IsEvil { get; set; }
-        public int Order { get; set; }
+        public bool IsEvil => (int)RoleId > 3;
+        public string RoleName => RoleId.ToString();
 
         public Player()
         {
