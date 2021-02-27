@@ -72,5 +72,14 @@ namespace AvalonApiNoDB.Api.Hubs
 
             await Clients.Group(gameId.ToString()).GameUpdated(g);
         }
+
+        public async Task SkipRevealTeamVote(Guid gameId)
+        {
+            Game g = GameStore.GetGame(gameId);
+
+            g.SkipRevealTeamVote();
+
+            await Clients.Group(gameId.ToString()).GameUpdated(g);
+        }
     }
 }

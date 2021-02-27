@@ -4,8 +4,8 @@
     {
         SelectingTeam = 0,
         VotingForTeam = 1,
-        VotingExpedition = 2,
-        TeamApproved = 3,
+        RevealTeamVote = 2,
+        VotingExpedition = 3,
         MissionSuccess = 4,
         MissionFailed = 5,
         RoundEnded = -1

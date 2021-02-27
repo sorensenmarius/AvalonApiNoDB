@@ -76,14 +76,8 @@ namespace AvalonApiNoDB.Core.Domain.Games
         {
             if (PointsEvil >= 3 || PointsInnocent >= 3)
             {
-                if (PointsEvil < 3 && Players.Exists(p => p.RoleId == Role.Assassin))
-                {
-                    Status = GameStatus.AssassinTurn;
-                }
-                else
-                {
-                    Status = GameStatus.Ended;
-                }
+
+                Status = PointsEvil < 3 && Players.Exists(p => p.RoleId == Role.Assassin) ? GameStatus.AssassinTurn : GameStatus.Ended;
             }
             else
             {
@@ -117,29 +111,32 @@ namespace AvalonApiNoDB.Core.Domain.Games
 
         public void AddTeamVote(bool votedSuccess)
         {
-            if (votedSuccess)
-            {
-                CurrentRound.VotesForTeam++;
-            } else
-            {
-                CurrentRound.VotesAgainstTeam++;
-            }
+            CurrentRound.TeamVote(votedSuccess);
 
-            if (CurrentRound.VotesForTeam + CurrentRound.VotesForExpedition >= Players.Count)
+            if (CurrentRound.TotalTeamVotes >= Players.Count)
             {
-                CurrentRound.Status = RoundStatus.TeamApproved;
+                CurrentRound.Status = RoundStatus.RevealTeamVote;
             }
         }
 
         public void AddExpeditionVote(bool votedSuccess)
         {
-            if (votedSuccess)
+            CurrentRound.ExpeditionVote(votedSuccess);
+
+            if (CurrentRound.TotalExpeditionVotes >= CurrentRound.CurrentTeam.Count)
             {
-                CurrentRound.VotesForExpedition++;
+                CurrentRound.Status = CurrentRound.VotesAgainstExpedition > 0 ? RoundStatus.MissionFailed : RoundStatus.MissionSuccess;
             }
-            else
+        }
+
+        public void SkipRevealTeamVote()
+        {
+            if (CurrentRound.VotesForTeam > CurrentRound.VotesAgainstTeam)
             {
-                CurrentRound.VotesAgainstExpedition++;
+                CurrentRound.Status = RoundStatus.VotingExpedition;
+            } else
+            {
+                NextRound();
             }
         }
     }
