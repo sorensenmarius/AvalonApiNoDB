@@ -90,5 +90,14 @@ namespace AvalonApiNoDB.Api.Hubs
 
             await Clients.Group(gameId.ToString()).GameUpdated(g);
         }
+
+        public async Task SkipExpeditionVotes(Guid gameId)
+        {
+            Game g = GameStore.GetGame(gameId);
+
+            g.NextRound();
+
+            await Clients.Group(gameId.ToString()).GameUpdated(g);
+        }
     }
 }

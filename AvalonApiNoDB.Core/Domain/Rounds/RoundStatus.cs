@@ -6,8 +6,7 @@
         VotingForTeam = 1,
         RevealTeamVote = 2,
         VotingExpedition = 3,
-        MissionSuccess = 4,
-        MissionFailed = 5,
+        RevealExpeditionVote = 4,
         RoundEnded = -1
     }
 }

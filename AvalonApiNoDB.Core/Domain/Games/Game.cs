@@ -125,7 +125,7 @@ namespace AvalonApiNoDB.Core.Domain.Games
 
             if (CurrentRound.TotalExpeditionVotes >= CurrentRound.CurrentTeam.Count)
             {
-                CurrentRound.Status = CurrentRound.VotesAgainstExpedition > 0 ? RoundStatus.MissionFailed : RoundStatus.MissionSuccess;
+                CurrentRound.Status = RoundStatus.RevealExpeditionVote;
             }
         }
 
