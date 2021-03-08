@@ -89,7 +89,7 @@ namespace AvalonApiNoDB.Core.Domain.Games
         {
             if (CurrentRound.TotalExpeditionVotes > 0)
             {
-                // TODO: Add so that you might nee two evil votes on some rounds
+                // TODO: Add so that you might need two evil votes on some rounds
                 if (CurrentRound.VotesAgainstExpedition > 0)
                 {
                     PointsEvil++;
@@ -99,10 +99,10 @@ namespace AvalonApiNoDB.Core.Domain.Games
                 }
             }
 
-            if (PointsEvil >= 2 || PointsInnocent >= 4)
+            if (PointsEvil >= 3 || PointsInnocent >= 3)
             {
 
-                Status = PointsEvil < 2 && Players.Exists(p => p.RoleId == Role.Assassin) ? GameStatus.AssassinTurn : GameStatus.Ended;
+                Status = PointsEvil < 3 && Players.Exists(p => p.RoleId == Role.Assassin) ? GameStatus.AssassinTurn : GameStatus.Ended;
             }
             else
             {
