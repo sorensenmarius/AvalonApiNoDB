@@ -38,6 +38,15 @@ namespace AvalonApiNoDB.Api.Controllers
                 return NotFound(e.Message);
             }
 
+            if (g.Players.Count >= 10)
+            {
+                return new JoinGameResponseDto()
+                {
+                    Game = null,
+                    Me = null
+                };
+            }
+
             Player p = new Player(input.PlayerName);
 
             g.Players.Add(p);

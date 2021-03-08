@@ -133,6 +133,9 @@ namespace AvalonApiNoDB.Core.Domain.Games
         public void SubmitCurrentTeam()
         {
             CurrentRound.Status = RoundStatus.VotingForTeam;
+
+            if (CurrentRound.FailedTeams >= 4)
+                CurrentRound.Status = RoundStatus.VotingExpedition;
         }
 
         public void AddTeamVote(bool votedSuccess)
@@ -162,7 +165,7 @@ namespace AvalonApiNoDB.Core.Domain.Games
                 CurrentRound.Status = RoundStatus.VotingExpedition;
             } else
             {
-                NextRound();
+                CurrentRound.RejectedTeam();
             }
         }
     }

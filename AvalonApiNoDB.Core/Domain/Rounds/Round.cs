@@ -1,8 +1,6 @@
 ﻿using AvalonApiNoDB.Core.Domain.Players;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AvalonApiNoDB.Core.Domain.Rounds
 {
@@ -11,7 +9,6 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
         public Guid Id { get; set; }
         public int FailedTeams { get; set; }
         public List<Player> CurrentTeam { get; set; }
-        public string TeamString { get; set; }
         public DateTime CreationTime { get; set; }
         public RoundStatus Status { get; set; }
         public int VotesForTeam { get; set; }
@@ -33,7 +30,6 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
             Status = RoundStatus.SelectingTeam;
             CreationTime = DateTime.Now;
             RequiredPlayers = HowManyPlayers(roundNumber, totalPlayerCount);
-            //RequiredPlayers = 2; // TODO - Remove this testing stuff
         }
 
         private int HowManyPlayers(int roundNumber, int totalPlayers)
@@ -77,6 +73,15 @@ namespace AvalonApiNoDB.Core.Domain.Rounds
                 VotesForExpedition++;
             else
                 VotesAgainstExpedition++;
+        }
+
+        public void RejectedTeam()
+        {
+            FailedTeams++;
+            CurrentTeam = new List<Player>();
+            Status = RoundStatus.SelectingTeam;
+            VotesAgainstTeam = 0;
+            VotesForTeam = 0;
         }
     }
 }
