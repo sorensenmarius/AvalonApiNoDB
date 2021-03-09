@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AvalonApiNoDB.Api.Controllers.Dto;
 using AvalonApiNoDB.Core.Domain.Games;
 using AvalonApiNoDB.Core.Domain.Players;
@@ -40,13 +41,13 @@ namespace AvalonApiNoDB.Api.Controllers
 
             if (g.Players.Count >= 10)
             {
-                return new JoinGameResponseDto()
-                {
-                    Game = null,
-                    Me = null
-                };
+                return Forbid("Game is full");
             }
 
+            if (g.Players.Select(p => p.Name).Contains(input.PlayerName))
+            {
+                return Forbid("Name already taken");
+            }
             Player p = new Player(input.PlayerName);
 
             g.Players.Add(p);
