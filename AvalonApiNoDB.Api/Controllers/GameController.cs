@@ -48,6 +48,11 @@ namespace AvalonApiNoDB.Api.Controllers
             {
                 return Forbid("Name already taken");
             }
+
+            if (input.PlayerName.Length > 15)
+            {
+                return Forbid("Name can be no longer than 15 characters");
+            }
             Player p = new Player(input.PlayerName);
 
             g.Players.Add(p);
