@@ -36,22 +36,22 @@ namespace AvalonApiNoDB.Api.Controllers
                 g = GameStore.GetGameByJoinCode(input.JoinCode);
             } catch(KeyNotFoundException e)
             {
-                return NotFound(e.Message);
+                return ValidationProblem(e.Message);
             }
 
             if (g.Players.Count >= 10)
             {
-                return Forbid("Game is full");
+                return ValidationProblem("Game is full");
             }
 
             if (g.Players.Select(p => p.Name).Contains(input.PlayerName))
             {
-                return Forbid("Name already taken");
+                return ValidationProblem("Name already taken");
             }
 
             if (input.PlayerName.Length > 15)
             {
-                return Forbid("Name can be no longer than 15 characters");
+                return ValidationProblem("Name can be no longer than 15 characters");
             }
             Player p = new Player(input.PlayerName);
 
