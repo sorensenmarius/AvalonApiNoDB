@@ -24,23 +24,23 @@ namespace AvalonApiNoDB.Core.Domain.Games
                 case Role.Minion:
                     return "The Evil players are: " + GetEvilPlayers();
                 case Role.Merlin:
-                    roleInfo += "The Evil players are: ";
+                    roleInfo += "You know who the evil players are, but don't reveal yourself|The Evil players are: ";
                     var evil = Players.Where(p => p.IsEvil && p.RoleId != Role.Mordred).Select(p => p.Name);
                     roleInfo += string.Join(" & ", evil);
                     return roleInfo;
                 case Role.Percival:
-                    roleInfo += "Merlin is: ";
+                    roleInfo += "You know who Merlin is, support him without revealing him.|Merlin is: ";
                     var morgOrMerlin = Players.Where(p => p.RoleId == Role.Merlin || p.RoleId == Role.Morgana).Select(p => p.Name);
                     roleInfo += string.Join(" or ", morgOrMerlin);
                     return roleInfo;
                 case Role.Mordred:
-                    return "The evil players are: " + GetEvilPlayers();
+                    return "Merlin does not know that you are evil.|The evil players are: " + GetEvilPlayers();
                 case Role.Morgana:
                     return "Percival sees you as Merlin.|The evil players are: " + GetEvilPlayers();
                 case Role.Oberon:
                     return "You are Evil.";
                 case Role.Assassin:
-                    return "If you figure out who Merlin is you win! | The evil players are: " + GetEvilPlayers();
+                    return "If you figure out who Merlin is, you win!|The evil players are: " + GetEvilPlayers();
             };
             return "No role? How? :thinking:";
         }
