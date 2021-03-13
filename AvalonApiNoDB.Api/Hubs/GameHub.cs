@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AvalonApiNoDB.Api.Hubs.Clients;
+using AvalonApiNoDB.Core.Domain.Avatars;
 using AvalonApiNoDB.Core.Domain.Games;
+using AvalonApiNoDB.Core.Domain.Players;
 using Microsoft.AspNetCore.SignalR;
 
 namespace AvalonApiNoDB.Api.Hubs
@@ -90,13 +92,19 @@ namespace AvalonApiNoDB.Api.Hubs
             await Clients.Group(gameId.ToString()).GameUpdated(g);
         }
 
-        public async Task SubmitExpeditionVote(Guid gameId, bool votedSuccess)
+        public async Task<string> SubmitExpeditionVote(Guid gameId, Guid playerId, bool votedSuccess)
         {
             Game g = GameStore.GetGame(gameId);
+
+            Player p = g.GetPlayer(playerId);
+
+            if (!votedSuccess && (int)p.RoleId <= 3)
+                return "You cannot vote fail when you are good";
 
             g.AddExpeditionVote(votedSuccess);
 
             await Clients.Group(gameId.ToString()).GameUpdated(g);
+            return "";
         }
 
         public async Task SkipExpeditionVotes(Guid gameId)
@@ -104,6 +112,15 @@ namespace AvalonApiNoDB.Api.Hubs
             Game g = GameStore.GetGame(gameId);
 
             g.NextRound();
+
+            await Clients.Group(gameId.ToString()).GameUpdated(g);
+        }
+
+        public async Task UpdateAvatar(Guid gameId, Guid playerId, Avatar avatar)
+        {
+            Game g = GameStore.GetGame(gameId);
+
+            g.GetPlayer(playerId).Avatar = avatar;
 
             await Clients.Group(gameId.ToString()).GameUpdated(g);
         }
