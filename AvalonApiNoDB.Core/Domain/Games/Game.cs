@@ -1,5 +1,6 @@
 ﻿using AvalonApiNoDB.Core.Domain.Players;
 using AvalonApiNoDB.Core.Domain.Rounds;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,34 @@ namespace AvalonApiNoDB.Core.Domain.Games
         public Player GetPlayer(Guid playerId)
         {
             return Players.Find(p => p.Id == playerId);
+        }
+
+        public void ValidateJoin(string name)
+        {
+            if (Status != GameStatus.WaitingForPlayers)
+            {
+                throw new Exception("Game has already started");
+            }
+
+            if (Players.Count >= 10)
+            {
+                throw new Exception("Game is full");
+            }
+
+            if (name.Length > 15)
+            {
+                throw new Exception("Name can be no longer than 15 characters");
+            }
+
+            if (Players.Select(p => p.Name).Contains(name))
+            {
+                throw new Exception("Name already taken");
+            }
+        }
+
+        private void ValidationProblem(string v)
+        {
+            throw new NotImplementedException();
         }
 
         public void Start(List<int> roles)

@@ -34,25 +34,12 @@ namespace AvalonApiNoDB.Api.Controllers
             try
             {
                 g = GameStore.GetGameByJoinCode(input.JoinCode);
-            } catch(KeyNotFoundException e)
+                g.ValidateJoin(input.PlayerName);
+            } catch(Exception e)
             {
                 return ValidationProblem(e.Message);
             }
 
-            if (g.Players.Count >= 10)
-            {
-                return ValidationProblem("Game is full");
-            }
-
-            if (g.Players.Select(p => p.Name).Contains(input.PlayerName))
-            {
-                return ValidationProblem("Name already taken");
-            }
-
-            if (input.PlayerName.Length > 15)
-            {
-                return ValidationProblem("Name can be no longer than 15 characters");
-            }
             Player p = new Player(input.PlayerName);
 
             g.Players.Add(p);
