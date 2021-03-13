@@ -53,24 +53,29 @@ namespace AvalonApiNoDB.Core.Domain.Games
         public void ValidateJoin(string name)
         {
             if (Status != GameStatus.WaitingForPlayers)
-            {
                 throw new Exception("Game has already started");
-            }
 
             if (Players.Count >= 10)
-            {
                 throw new Exception("Game is full");
-            }
 
             if (name.Length > 15)
-            {
                 throw new Exception("Name can be no longer than 15 characters");
-            }
 
             if (Players.Select(p => p.Name).Contains(name))
-            {
                 throw new Exception("Name already taken");
-            }
+        }
+
+        public void ValidateStart(List<int> roles)
+        {
+            if (Players.Count < 5)
+                throw new Exception("You need to be atleast 5 players");
+
+            var howManyEvils = new List<int>() { 2, 2, 3, 3, 3, 4 };
+            var numEvils = howManyEvils[Players.Count - 5];
+            var numEvilRolesChosen = roles.Where(r => r > 3).Count();
+
+            if (numEvilRolesChosen > numEvils)
+                throw new Exception($"You can only choose {numEvils} evil roles with {Players.Count} players.");
         }
 
         private void ValidationProblem(string v)

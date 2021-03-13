@@ -19,13 +19,21 @@ namespace AvalonApiNoDB.Api.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId.ToString());
         }
 
-        public async Task StartGame(Guid gameId, List<int> roles)
+        public async Task<string> StartGame(Guid gameId, List<int> roles)
         {
             Game g = GameStore.GetGame(gameId);
+            try
+            {
+                g.ValidateStart(roles);
+            } catch (Exception e)
+            {
+                return e.Message;
+            }
 
             g.Start(roles);
 
             await Clients.Group(gameId.ToString()).GameUpdated(g);
+            return "";
         }
 
         public async Task JoinGame(Guid gameId)

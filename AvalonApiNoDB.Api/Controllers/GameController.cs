@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using AvalonApiNoDB.Api.Controllers.Dto;
 using AvalonApiNoDB.Core.Domain.Games;
 using AvalonApiNoDB.Core.Domain.Players;
