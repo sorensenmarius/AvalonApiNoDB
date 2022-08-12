@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  avalonapinodb.api:
-    image: ${DOCKER_REGISTRY-}avalonapinodbapi
-    build:
-      context: .
-      dockerfile: AvalonApiNoDB/Dockerfile
