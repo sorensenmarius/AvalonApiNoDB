@@ -45,6 +45,7 @@ namespace AvalonApiNoDB
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Avalon API | No Db");
+                c.RoutePrefix = string.Empty;
             });
 
             app.UseHttpsRedirection();

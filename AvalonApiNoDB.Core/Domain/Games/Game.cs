@@ -200,6 +200,7 @@ namespace AvalonApiNoDB.Core.Domain.Games
             } else
             {
                 CurrentRound.RejectedTeam();
+                PlayerIndex++;
             }
         }
     }

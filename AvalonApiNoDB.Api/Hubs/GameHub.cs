@@ -11,11 +11,6 @@ namespace AvalonApiNoDB.Api.Hubs
 {
     public class GameHub : Hub<IGameClient>
     {
-
-        public async Task Test()
-        {
-            await Groups.AddToGroupAsync(Context.ConnectionId, "abcabc");
-        }
         public async Task HostGame(Guid gameId)
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId.ToString());
@@ -23,7 +18,7 @@ namespace AvalonApiNoDB.Api.Hubs
 
         public async Task<string> StartGame(Guid gameId, List<int> roles)
         {
-            Game g = GameStore.GetGame(gameId);
+            var g = GameStore.GetGame(gameId);
             try
             {
                 g.ValidateStart(roles);
@@ -42,14 +37,14 @@ namespace AvalonApiNoDB.Api.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, gameId.ToString());
 
-            Game g = GameStore.GetGame(gameId);
+            var g = GameStore.GetGame(gameId);
 
             await Clients.Group(gameId.ToString()).GameUpdated(g);
         }
 
         public async Task Assassinate(Guid gameId, Guid assassinationTargetId)
         {
-            Game g = GameStore.GetGame(gameId);
+            var g = GameStore.GetGame(gameId);
 
             g.Assassinate(assassinationTargetId);
 
@@ -58,7 +53,7 @@ namespace AvalonApiNoDB.Api.Hubs
 
         public async Task ChangeSelectedTeam(Guid gameId, IEnumerable<Guid> playerIds)
         {
-            Game g = GameStore.GetGame(gameId);
+            var g = GameStore.GetGame(gameId);
 
             g.SetCurrentTeam(playerIds);
 
@@ -67,7 +62,7 @@ namespace AvalonApiNoDB.Api.Hubs
 
         public async Task SubmitSelectedTeam(Guid gameId)
         {
-            Game g = GameStore.GetGame(gameId);
+            var g = GameStore.GetGame(gameId);
 
             g.SubmitCurrentTeam();
 
@@ -76,7 +71,7 @@ namespace AvalonApiNoDB.Api.Hubs
 
         public async Task SubmitTeamVote(Guid gameId, bool votedSuccess)
         {
-            Game g = GameStore.GetGame(gameId);
+            var g = GameStore.GetGame(gameId);
 
             g.AddTeamVote(votedSuccess);
 
@@ -85,7 +80,7 @@ namespace AvalonApiNoDB.Api.Hubs
 
         public async Task SkipRevealTeamVotes(Guid gameId)
         {
-            Game g = GameStore.GetGame(gameId);
+            var g = GameStore.GetGame(gameId);
 
             g.SkipRevealTeamVote();
 
@@ -94,9 +89,9 @@ namespace AvalonApiNoDB.Api.Hubs
 
         public async Task<string> SubmitExpeditionVote(Guid gameId, Guid playerId, bool votedSuccess)
         {
-            Game g = GameStore.GetGame(gameId);
+            var g = GameStore.GetGame(gameId);
 
-            Player p = g.GetPlayer(playerId);
+            var p = g.GetPlayer(playerId);
 
             if (!votedSuccess && (int)p.RoleId <= 3)
                 return "You cannot vote fail when you are good";
@@ -109,7 +104,7 @@ namespace AvalonApiNoDB.Api.Hubs
 
         public async Task SkipExpeditionVotes(Guid gameId)
         {
-            Game g = GameStore.GetGame(gameId);
+            var g = GameStore.GetGame(gameId);
 
             g.NextRound();
 
@@ -118,7 +113,7 @@ namespace AvalonApiNoDB.Api.Hubs
 
         public async Task UpdateAvatar(Guid gameId, Guid playerId, Avatar avatar)
         {
-            Game g = GameStore.GetGame(gameId);
+            var g = GameStore.GetGame(gameId);
 
             g.GetPlayer(playerId).Avatar = avatar;
 
