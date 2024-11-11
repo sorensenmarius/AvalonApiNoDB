@@ -15,6 +15,12 @@
   <ItemGroup>
     <ProjectReference Include="..\AvalonApiNoDB.Core\AvalonApiNoDB.Core.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\.dockerignore">
+      <Link>.dockerignore</Link>
+    </Content>
+  </ItemGroup>
   
   
 </Project>
